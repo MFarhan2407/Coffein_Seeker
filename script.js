@@ -15,8 +15,8 @@ function getJenisKopi() {
 
 // Menghitung jumlah kafeinnya
 function hitungKafein(jenis, minum) {
-    if (jenis === "arabika") return minum * 12
-    if (jenis === "robusta") return minum * 22
+    if (jenis === "arabika") return minum * 12 // 12 mg
+    if (jenis === "robusta") return minum * 22 // 22 mg
     return 0
 }
 
@@ -28,8 +28,7 @@ function tambahMinuman(nama, jumlahMg) {
     konsumsiHariIni.push({
         nama: nama,
         kafein: jumlahMg,
-        waktu: new Date()
-
+        // waktu: new Date()
     })
     // Lalu memanggil update tampilan, untuk memperbarui UI
     updateTampilan()
@@ -47,9 +46,9 @@ function hitungTotal() {
 // console.log(hitungTotal());
 
 function cekStatus(total) {
-    if (total < 300) return "Aman";
-    if (total <= 400) return "Waspada! ⚠️"
-    return "Bahaya! 🚫"
+    if (total < 300) return "Masih amaaan, ngopi lagi skuuyy";
+    if (total <= BATAS_KAFEIN) return "Mulai hati-hati yaa sebaiknya ditahan dulu ngopinya ⚠️"
+    return "Waduh! kamu udah kelebihan kafein, saatnya berhenti ngopiii 🚫"
 
 }
 
@@ -58,52 +57,34 @@ function handleTambah() {
     const minum = parseInt(document.getElementById("jumlahMinum").value);
     const jenis = getJenisKopi()
     const kafein = hitungKafein(jenis, minum);
-    // Memanggil fungsi" yg lain agar ketika button "tambah" di klik hasilnya berubah
 
     if (isNaN(minum) || minum <= 0) {
-        alert("Masukkan jumlah minum kopi yang valid");
+        alert("Masukkin jumlahnya dulu doongg");
         return;
     }
     tambahMinuman(jenis.charAt(0).toUpperCase() + jenis.slice(1), kafein);
 
     document.getElementById("jumlahMinum").value = "";
-    document.getElementById("hasilKafein").innerText = "Total Kafein: 0 mg";
-    document.getElementById("statusCaffeine").innerText = `Total: ${hitungTotal()} mg | Status : ${cekStatus(hitungTotal())}`;
+
 }
 
 function updateTampilan() {
-    const total = hitungTotal();
-    const status = cekStatus(total);
-
-    // Memperbarui total konsumsi dan status
-    document.getElementById("statusCaffeine").innerText = `Total: ${total} mg | Status: ${status}`;
-
+ 
     // Menampilkan daftar minuman yang sudah ditambahkan, nnti kita combo dgn minuman" lain
     const ul = document.getElementById("riwayatList");
     ul.innerHTML = "";
+
+    let totalSementara = 0
+
     for (let item of konsumsiHariIni) {
+        totalSementara += item.kafein
+
+        const status = cekStatus(totalSementara)
         const li = document.createElement("li");
-        li.textContent = `${item.nama} (${item.kafein} mg)`;
+        
+        li.innerHTML = `${item.nama} (${item.kafein} mg)
+        <br><small> Status: ${status}</small>`;
+        // Untuk membuat list didalam ul
         ul.appendChild(li);
     }
-}
-
-// Ini optional, bisa kita hapus agar user tidak langsung tau berapa kafein ditubuh dia hari ini
-function updatePreviewKafein() {
-    const minum = parseInt(document.getElementById("jumlahMinum").value) || 0;
-    const jenis = getJenisKopi();
-    const kafein = hitungKafein(jenis, minum);
-    const status = cekStatus(hitungTotal() + kafein);
-
-    document.getElementById("hasilKafein").innerText = `Total Kafein: ${kafein} mg`;
-    // // Menampilkan prediksi statusnya, bisa kita hapus aja
-    document.getElementById("statusCaffeine").innerText = `Jika ditambahkan: ${hitungTotal() + kafein} mg | Status: ${status}`
-
-}
-
-// Event otomatis ketika input bertambah / berubah
-document.getElementById("jumlahMinum").addEventListener("input", updatePreviewKafein);
-const jenisRadios = document.getElementsByName("jenisKopi");
-for (let  radio of jenisRadios) {
-    radio.addEventListener("change", updatePreviewKafein);
 }
