@@ -1,12 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coffein Seeker</title>
-</head>
-<body>
-    <h1>YOK BISA YOK</h1>
     
+</head>
+
+<body>
+    <!-- Silahkan di styling yang bagus ges judulnya yak -->
+    <h1>Coffein Seeker ☕</h1>
+
+    <label for="">Jenis Kopi:</label><br>
+    <!-- Disini user memilih jenis kopinya, tinggalkan ditambahkan IMAGE -->
+    <input type="radio" name="jenis" value="arabika" checked>Arabika<br>
+    <input type="radio" name="jenisKopi" value="robusta"> Robusta<br><br>
+    <!-- Type radio untuk user bisa memilih antara Robusta atau Arabika, silahkan di styling -->
+    <input type="number" id="jumlahMinum" placeholder="Jumlah Kopi Diminum" style="width: max-content;">
+    <!-- id=jumlahMinum, dipakai untuk berapa kali user meminum kopinya -->
+    <p id="hasilKafein">Total Kafein: 0 mg</p>
+    <!-- id=hasilKafein, ini untuk otomatis menambahkan totalnya -->
+
+    <button onclick="handleTambah()">Tambah</button>
+    <!-- Tombol untuk menambahkan -->
+
+    <div class="status" id="statusCaffeine">
+        Total: 0 mg | Status: Aman ✅
+    </div>
+    <!-- Status disini nanti bisa diganti maunya apa, nanti kita combo dengan jam tidur -->
+
+    <h4>Riwayat</h4>
+    <ul id="riwayatList"></ul>
+    <!-- id=riwayatList, untuk menampilkan hasil berapa gram nya nanti dicombo dengan Saran / Solusi -->
+
+    <script src="script.js"></script>
 </body>
+
 </html>
